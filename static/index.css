@@ -1,0 +1,9 @@
+.tales {
+    width: 100%;
+  }
+.carousel-inner{
+  max-height: 550px !important;
+}
+body {
+    background-color: #D3D3D3 !important;
+}

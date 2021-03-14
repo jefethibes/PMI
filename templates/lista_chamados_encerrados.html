@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Listar chamados{% endblock %}
+
+{% block head %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='configuracoes.css') }}">
+{% endblock %}
+
+{% block logout %}
+    {% if permissao == 'Administrador' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown3" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color3" class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color4" class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li><a class="nav-link" href="/relatorios">Relatórios</a></li>
+        <li><a class="nav-link" href="/gerenciar_usuarios">Usuários</a></li>
+        <li><a class="nav-link" href="/configuracoes">Configurações</a></li>
+    {% elif permissao == 'Suporte TI' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown5" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color5" class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% elif permissao == 'Suporte Manutenção' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown6" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color6" class="dropdown-menu" aria-labelledby="navbarDropdown6">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% endif %}
+    <li><a class="nav-link" href="/logout">Logout</a></li>
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <br>
+    <div id="divone" class="container col-md-11">
+        <div class="panel-body ">
+            <br>
+            <select name="state" id="maxRows" class="form-control col-md-2">
+                <option value="{{ tamanho }}">Listar todos</option>
+                <option value="5">5 em 5</option>
+                <option value="10">10 em 10</option>
+                <option value="15">15 em 15</option>
+                <option value="30">30 em 30</option>
+            </select>
+            <br>
+            <table id="mytable" class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Setor</th>
+                        <th>Nome</th>
+                        <th>Titulo</th>
+                        <th>Urgencia/Modelo</th>
+                        <th>Data Abertura</th>
+                        <th>Data Encerramento</th>
+                        <th>Visualizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for iten in itens %}
+                        <tr>
+                            <td>{{ iten['tipo']}}</td>
+                            <td>{{ iten['setor']}} </td>
+                            <td>{{ iten['usuario']}}</td>
+                            <td>{{ iten['titulo']}} </td>
+                            {% if iten['tipo'] == 'Impressoras' %}
+                            <td>{{ iten['modelo']}} </td>
+                            {% else %}
+                            <td>{{ iten['urgencia']}}</td>
+                            {% endif %}
+                            <td>{{ iten['data_abertura']}} </td>
+                            <td>{{ iten['data_encerramento']}}</td>
+                            <td align="center">
+                                <a href="/visualizar_chamado/{{ iten['_id']}}" class="btn btn-primary btn-sm">
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
+                                    <span><strong>Visualizar</strong></span>
+                                </a>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="pagination-container">
+                <nav>
+                    <ul class="pagination"></ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block jquery %}
+    <script src="/static/listas.js"></script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Chamados{% endblock %}
+
+{% block head %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='estilos_basicos.css') }}">
+{% endblock %}
+
+{% block logout %}
+    {% if permissao == 'Administrador' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown3" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color3" class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color4" class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li><a class="nav-link" href="/relatorios">Relatórios</a></li>
+        <li><a class="nav-link" href="/gerenciar_usuarios">Usuários</a></li>
+        <li><a class="nav-link" href="/configuracoes">Configurações</a></li>
+    {% elif permissao == 'Suporte TI' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown5" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color5" class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% elif permissao == 'Suporte Manutenção' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown6" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color6" class="dropdown-menu" aria-labelledby="navbarDropdown6">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% endif %}
+    <li><a class="nav-link" href="/logout">Logout</a></li>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        {% from "macro.html" import render_field %}
+        <form class="form-group col-md-6 offset-md-3" method="post">
+            <h4 class="text-center">{{ title }}</h4>
+            <h6 class="text-center">Preencha os campos com o máximo de detalhes:</h6>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>Setor:</label>
+                    <select class="form-control" name="setor">
+                        {% for setor in setores %}
+                            <option>{{ setor }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% if tipo_chamado == 'impressoras' %}
+                <div class="form-group col-md-6">
+                    <label>Modelo:</label>
+                        <select class="form-control" name="modelo">
+                            {% for modelo in modelos %}
+                                <option>{{ modelo }}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+            {% else %}
+                <div class="form-group col-md-6">
+                    <label>Urgência:</label>
+                        <select class="form-control" name="urgencia">
+                            <option>Baixa</option>
+                            <option>Média</option>
+                            <option>Alta</option>
+                        </select>
+                </div>
+            {% endif %}
+            </div>
+            <div>
+                {{ render_field(field.titulo, class='form-control', placeholder='Título', maxlength='30')}}
+            </div>
+            <div>
+                {{ render_field(field.comentario, id='msg', class='form-control', placeholder='Preencha com o máximo de informações!', maxlength='100')}}
+            </div>
+            <div class="text-center">
+                <button type="submit" value="enviar" class="btn btn-primary btn-lg"><strong>Enviar</strong></button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

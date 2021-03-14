@@ -1,0 +1,16 @@
+#msg {
+    width: 525px; height: 150px; resize: none;
+}
+#msgblock {
+    width: 525px; height: 150px; resize: none;
+}
+#msgblock2 {
+    width: 525px; height: 150px; resize: none;
+}
+body {
+    background-color: #D3D3D3 !important;
+}
+#id-button {
+    color: #ffffff !important;
+}
+

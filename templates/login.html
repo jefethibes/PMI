@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='login.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="login-page">
+        <div class="form">
+            <h1>Bem vindo!</h1>
+            <h6>Efetue o login para acesso ao sistema!</h6>
+            {% from "macro.html" import render_field %}
+            <form class="register-form" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div>
+                    {{ render_field(field.usuario, type='text', placeholder='Usuário')}}
+                </div>
+                <div>
+                    {{ render_field(field.senha, type='password', placeholder='Senha')}}
+                </div>
+                <br>
+                <button class="btn btn-primary btn-lg" type="submit" value="enviar"><strong>Login</strong></button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block head %}
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
+{% endblock %}
+
+{% block logout %}
+    {% if permissao == 'Administrador' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown3" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color3" class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown4" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color4" class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+        <li><a class="nav-link" href="/relatorios">Relatórios</a></li>
+        <li><a class="nav-link" href="/gerenciar_usuarios">Usuários</a></li>
+        <li><a class="nav-link" href="/configuracoes">Configurações</a></li>
+    {% elif permissao == 'Suporte TI' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown5" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados TI</a>
+            <div id="nav-color5" class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                <a class="dropdown-item" href="/chamados_ti">Abertos</a>
+                <a class="dropdown-item" href="/chamados_ti_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% elif permissao == 'Suporte Manutenção' %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown6" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">Chamados Manutenção</a>
+            <div id="nav-color6" class="dropdown-menu" aria-labelledby="navbarDropdown6">
+                <a class="dropdown-item" href="/chamados_manutencao">Abertos</a>
+                <a class="dropdown-item" href="/chamados_manutencao_encerrados">Encerrados</a>
+            </div>
+        </li>
+    {% endif %}
+    <li><a class="nav-link" href="/logout">Logout</a></li>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="tales" src="/static/imagens/imagen1.jpg" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="tales" src="/static/imagens/imagen2.jpg" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img class="tales" src="/static/imagens/imagen3.jpg" alt="Third slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+Basta criar a seguinte database:
+
+suporte
+
+E as Collections:
+
+chamados
+impressoras
+setores
+usuarios
